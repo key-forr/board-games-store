@@ -29,6 +29,21 @@
             android:id="@+id/action_editProfileFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.tutor.fragments.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/listFragment"
+        android:name="com.example.tutor.fragments.ListFragment"
+        android:label="fragment_list"
+        tools:layout="@layout/fragment_list" />
+    <fragment
+        android:id="@+id/mysteryFragment"
+        android:name="com.example.tutor.fragments.MysteryFragment"
+        android:label="fragment_mystery"
+        tools:layout="@layout/fragment_mystery" />
 
 
 </navigation>

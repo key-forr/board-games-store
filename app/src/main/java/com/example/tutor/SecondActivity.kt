@@ -16,5 +16,11 @@ class SecondActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivitySecondBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.root.post {
+            val controller = findNavController(R.id.fragmentContainerView)
+            binding.bottomNavigationView.setupWithNavController(controller)
+        }
     }
 }
+
