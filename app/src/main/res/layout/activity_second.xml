@@ -21,7 +21,7 @@
         app:menu="@menu/nav_footer_menu" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerView"
+        android:id="@+id/fragmentContainerViewSecond"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="409dp"
         android:layout_height="649dp"

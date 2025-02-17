@@ -3,7 +3,6 @@ package com.example.tutor.fragments
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.tutor.R
 import com.example.tutor.databinding.FragmentRegistrationBinding
-import java.text.SimpleDateFormat
-import java.util.*
+import org.json.JSONArray
+import org.json.JSONObject
 
 class RegistrationFragment : Fragment() {
 
@@ -49,11 +48,6 @@ class RegistrationFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            if (!isValidDate(birthDate)) {
-                Toast.makeText(requireContext(), "Invalid birth date format!", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
             if (password != confirmPassword) {
                 Toast.makeText(requireContext(), "Passwords do not match!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -61,31 +55,34 @@ class RegistrationFragment : Fragment() {
 
             saveUser(fullName, birthDate, username, email, password)
 
-            try {
-                findNavController().navigate(R.id.signInFragment)
-            } catch (e: Exception) {
-                Log.e("RegistrationFragment", "Navigation error", e)
-            }
-        }
-    }
-
-    private fun isValidDate(date: String): Boolean {
-        return try {
-            val sdf = SimpleDateFormat("ddMMyyyy", Locale.getDefault())
-            sdf.isLenient = false
-            sdf.parse(date) != null
-        } catch (e: Exception) {
-            false
+            findNavController().navigate(R.id.signInFragment)
         }
     }
 
     private fun saveUser(fullName: String, birthDate: String, username: String, email: String, password: String) {
+        val usersJson = sharedPreferences.getString("users", "[]")
+        val usersArray = JSONArray(usersJson)
+
+        for (i in 0 until usersArray.length()) {
+            val user = usersArray.getJSONObject(i)
+            if (user.getString("email") == email) {
+                Toast.makeText(requireContext(), "User with this email already exists!", Toast.LENGTH_SHORT).show()
+                return
+            }
+        }
+
+        val newUser = JSONObject().apply {
+            put("fullName", fullName)
+            put("birthDate", birthDate)
+            put("username", username)
+            put("email", email)
+            put("password", password)
+        }
+
+        usersArray.put(newUser)
+
         sharedPreferences.edit()
-            .putString("fullName", fullName)
-            .putString("birthDate", birthDate)
-            .putString("username", username)
-            .putString("email", email)
-            .putString("password", password)
+            .putString("users", usersArray.toString())
             .apply()
 
         Toast.makeText(requireContext(), "User registered!", Toast.LENGTH_SHORT).show()

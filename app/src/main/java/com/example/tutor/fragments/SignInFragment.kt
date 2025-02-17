@@ -12,8 +12,10 @@ import androidx.navigation.fragment.findNavController
 import com.example.tutor.R
 import com.example.tutor.SecondActivity
 import com.example.tutor.databinding.FragmentSignInBinding
+import org.json.JSONArray
 
 class SignInFragment : Fragment() {
+
     private var _binding: FragmentSignInBinding? = null
     private val binding get() = _binding!!
 
@@ -28,6 +30,8 @@ class SignInFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        checkLoggedInUser()
+
         binding.btnSignUp.setOnClickListener {
             findNavController().navigate(R.id.registrationFragment)
         }
@@ -36,22 +40,81 @@ class SignInFragment : Fragment() {
             val enteredEmail = binding.etEmail.text.toString().trim()
             val enteredPassword = binding.etPassword.text.toString().trim()
 
-            if (validateUser(enteredEmail, enteredPassword)) {
-                Toast.makeText(requireContext(), "Вхід успішний!", Toast.LENGTH_SHORT).show()
-                val intent = Intent(requireActivity(), SecondActivity::class.java)
-                startActivity(intent)
-            } else {
-                Toast.makeText(requireContext(), "Неправильний email або пароль", Toast.LENGTH_SHORT).show()
+            if (enteredEmail.isEmpty() || enteredPassword.isEmpty()) {
+                Toast.makeText(requireContext(), "Будь ласка, заповніть всі поля", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            when (validateUser(enteredEmail, enteredPassword)) {
+                ValidationResult.SUCCESS -> {
+                    Toast.makeText(requireContext(), "Вхід успішний!", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(requireActivity(), SecondActivity::class.java)
+                    intent.putExtra("userEmail", enteredEmail)
+                    startActivity(intent)
+                    requireActivity().finish()
+                }
+                ValidationResult.USER_NOT_FOUND -> {
+                    Toast.makeText(requireContext(), "Користувача не знайдено", Toast.LENGTH_SHORT).show()
+                }
+                ValidationResult.INVALID_PASSWORD -> {
+                    Toast.makeText(requireContext(), "Неправильний пароль", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
 
-    private fun validateUser(email: String, password: String): Boolean {
+    private fun checkLoggedInUser() {
         val sharedPreferences = requireActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
-        val savedEmail = sharedPreferences.getString("email", null)
-        val savedPassword = sharedPreferences.getString("password", null)
+        val loggedInEmail = sharedPreferences.getString("loggedInUser", null)
 
-        return email == savedEmail && password == savedPassword
+        if (loggedInEmail != null && isUserExists(loggedInEmail)) {
+            val intent = Intent(requireActivity(), SecondActivity::class.java)
+            intent.putExtra("userEmail", loggedInEmail)
+            startActivity(intent)
+            requireActivity().finish()
+        }
+    }
+
+    private fun isUserExists(email: String): Boolean {
+        val sharedPreferences = requireActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        val usersJson = sharedPreferences.getString("users", "[]")
+        val usersArray = JSONArray(usersJson)
+
+        for (i in 0 until usersArray.length()) {
+            val user = usersArray.getJSONObject(i)
+            if (user.getString("email") == email) {
+                return true
+            }
+        }
+
+        return false
+    }
+
+    private enum class ValidationResult {
+        SUCCESS,
+        USER_NOT_FOUND,
+        INVALID_PASSWORD
+    }
+
+    private fun validateUser(email: String, password: String): ValidationResult {
+        val sharedPreferences = requireActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        val usersJson = sharedPreferences.getString("users", "[]")
+        val usersArray = JSONArray(usersJson)
+
+        for (i in 0 until usersArray.length()) {
+            val user = usersArray.getJSONObject(i)
+            if (user.getString("email") == email) {
+                return if (user.getString("password") == password) {
+                    sharedPreferences.edit()
+                        .putString("loggedInUser", email)
+                        .apply()
+                    ValidationResult.SUCCESS
+                } else {
+                    ValidationResult.INVALID_PASSWORD
+                }
+            }
+        }
+        return ValidationResult.USER_NOT_FOUND
     }
 
     override fun onDestroyView() {

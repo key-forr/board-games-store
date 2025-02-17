@@ -9,6 +9,7 @@ import com.example.tutor.databinding.ActivitySecondBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class SecondActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivitySecondBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,7 +19,7 @@ class SecondActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.root.post {
-            val controller = findNavController(R.id.fragmentContainerView)
+            val controller = findNavController(R.id.fragmentContainerViewSecond)
             binding.bottomNavigationView.setupWithNavController(controller)
         }
     }

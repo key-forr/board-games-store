@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/auth_nav_graph"
     app:startDestination="@id/signInFragment">
+
     <fragment
         android:id="@+id/signInFragment"
         android:name="com.example.tutor.fragments.SignInFragment"
@@ -13,6 +14,7 @@
             android:id="@+id/action_signInFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/registrationFragment"
         android:name="com.example.tutor.fragments.RegistrationFragment"
@@ -22,4 +24,5 @@
             android:id="@+id/action_registrationFragment_to_signInFragment"
             app:destination="@id/signInFragment" />
     </fragment>
+
 </navigation>
