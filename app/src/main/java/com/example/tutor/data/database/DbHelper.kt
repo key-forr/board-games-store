@@ -6,8 +6,16 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.tutor.data.entity.User
 import com.example.tutor.data.dao.UserDao
+import com.example.tutor.data.entity.Cart
+import com.example.tutor.data.entity.Game
+import com.example.tutor.data.entity.Order
+import com.example.tutor.data.entity.OrderDetail
 
-@Database(entities = [User::class], version = 1)
+
+@Database(
+    entities = [User::class, OrderDetail::class, Order::class, Game::class, Cart::class],
+    version = 1
+)
 abstract class DbHelper : RoomDatabase() {
     abstract fun getUserDao(): UserDao
 
