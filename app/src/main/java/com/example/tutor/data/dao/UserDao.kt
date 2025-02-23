@@ -1,8 +1,9 @@
-package com.example.tutor
+package com.example.tutor.data.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import com.example.tutor.data.entity.User
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -13,4 +14,7 @@ interface UserDao {
 
     @Query("SELECT * FROM user")
     fun getAllUsers(): Flow<List<User>>
+
+    @Query("DELETE FROM User")
+    suspend fun clearTable()
 }
