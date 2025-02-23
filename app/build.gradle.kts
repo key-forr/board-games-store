@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("kotlin-kapt")
 }
 
 android {
@@ -39,6 +40,9 @@ android {
 }
 
 dependencies {
+    kapt("androidx.room:room-compiler:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.7")
+    implementation("androidx.room:room-ktx:2.6.1")
     implementation("androidx.navigation:navigation-fragment:2.8.6")
     implementation("androidx.navigation:navigation-ui:2.8.6")
     implementation("de.hdodenhof:circleimageview:3.1.0")

@@ -22,6 +22,7 @@ import com.example.tutor.utils.BitmapUtils
 import org.json.JSONArray
 
 class EditProfileFragment : Fragment() {
+
     private var _binding: FragmentEditProfileBinding? = null
     private val binding get() = _binding!!
 
