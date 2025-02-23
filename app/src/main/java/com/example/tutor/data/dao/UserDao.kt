@@ -8,13 +8,9 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UserDao {
-
     @Insert
-    fun insertUser(user: User)
+    suspend fun insertUser(user: User)
 
-    @Query("SELECT * FROM user")
-    fun getAllUsers(): Flow<List<User>>
-
-    @Query("DELETE FROM User")
-    suspend fun clearTable()
+    @Query("SELECT * FROM Users WHERE email = :email LIMIT 1")
+    suspend fun getUserByEmail(email: String): User?
 }

@@ -2,48 +2,21 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph"
-    app:startDestination="@id/profileFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
-        android:id="@+id/profileFragment"
-        android:name="com.example.tutor.fragments.ProfileFragment"
-        android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" >
+        android:id="@+id/loginFragment"
+        android:name="com.example.tutor.ui.auth.LoginFragment"
+        android:label="Login"
+        tools:layout="@layout/fragment_login">
         <action
-            android:id="@+id/action_profileFragment_to_editProfileFragment"
-            app:destination="@id/editProfileFragment">
-            <argument
-                android:name="avatarUri"
-                app:argType="string"
-                app:nullable="true" />
-        </action>
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/editProfileFragment"
-        android:name="com.example.tutor.fragments.EditProfileFragment"
-        android:label="fragment_edit_profile"
-        tools:layout="@layout/fragment_edit_profile" >
-        <action
-            android:id="@+id/action_editProfileFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.example.tutor.fragments.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
-    <fragment
-        android:id="@+id/listFragment"
-        android:name="com.example.tutor.fragments.ListFragment"
-        android:label="fragment_list"
-        tools:layout="@layout/fragment_list" />
-    <fragment
-        android:id="@+id/mysteryFragment"
-        android:name="com.example.tutor.fragments.MysteryFragment"
-        android:label="fragment_mystery"
-        tools:layout="@layout/fragment_mystery" />
-
-
+        android:id="@+id/registerFragment"
+        android:name="com.example.tutor.ui.auth.RegisterFragment"
+        android:label="Register"
+        tools:layout="@layout/fragment_register" />
 </navigation>

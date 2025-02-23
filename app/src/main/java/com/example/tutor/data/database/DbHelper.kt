@@ -4,20 +4,28 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.example.tutor.data.dao.RoleDao
 import com.example.tutor.data.entity.User
 import com.example.tutor.data.dao.UserDao
 import com.example.tutor.data.entity.Cart
+import com.example.tutor.data.entity.CartItem
 import com.example.tutor.data.entity.Game
 import com.example.tutor.data.entity.Order
-import com.example.tutor.data.entity.OrderDetail
+import com.example.tutor.data.entity.OrderItem
+import com.example.tutor.data.entity.OrderStatus
+import com.example.tutor.data.entity.Role
 
 
 @Database(
-    entities = [User::class, OrderDetail::class, Order::class, Game::class, Cart::class],
-    version = 1
+    entities = [User::class, Order::class, Game::class, Cart::class,
+                CartItem::class, OrderItem::class, OrderStatus::class, Role::class],
+    version = 2
 )
+@TypeConverters(Converters::class)
 abstract class DbHelper : RoomDatabase() {
     abstract fun getUserDao(): UserDao
+    abstract fun getRoleDao(): RoleDao
 
     companion object {
         @Volatile
@@ -29,7 +37,7 @@ abstract class DbHelper : RoomDatabase() {
                     context.applicationContext,
                     DbHelper::class.java,
                     "board-games-store.db"
-                ).build()
+                ).fallbackToDestructiveMigration().build()
                 INSTANCE = instance
                 instance
             }

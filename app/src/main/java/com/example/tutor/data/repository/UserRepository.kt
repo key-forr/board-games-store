@@ -5,13 +5,13 @@ import com.example.tutor.data.entity.User
 import kotlinx.coroutines.flow.Flow
 
 class UserRepository(private val userDao: UserDao) {
-    val allUsers: Flow<List<User>> = userDao.getAllUsers()
-
-    suspend fun insert(user: User) {
-        userDao.insertUser(user)
-    }
-
-    suspend fun clearTable() {
-        userDao.clearTable()
+    suspend fun registerUser(user: User): Boolean {
+        val existingUser = userDao.getUserByEmail(user.email)
+        return if (existingUser == null) {
+            userDao.insertUser(user)
+            true
+        } else {
+            false
+        }
     }
 }
