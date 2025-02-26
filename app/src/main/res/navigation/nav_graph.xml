@@ -12,6 +12,12 @@
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_adminFragment"
+            app:destination="@id/adminFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_clientFragment"
+            app:destination="@id/clientFragment" />
     </fragment>
 
     <fragment
@@ -19,4 +25,15 @@
         android:name="com.example.tutor.ui.auth.RegisterFragment"
         android:label="Register"
         tools:layout="@layout/fragment_register" />
+    <fragment
+        android:id="@+id/adminFragment"
+        android:name="com.example.tutor.ui.admin.AdminFragment"
+        android:label="fragment_admin"
+        tools:layout="@layout/fragment_admin" />
+    <fragment
+        android:id="@+id/clientFragment"
+        android:name="com.example.tutor.ui.client.ClientFragment"
+        android:label="fragment_client"
+        tools:layout="@layout/fragment_client" />
+
 </navigation>

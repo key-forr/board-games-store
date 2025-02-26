@@ -7,7 +7,7 @@ class RegisterUserUseCase(private val userRepository: UserRepository) {
     suspend fun execute(username: String, email: String, password: String): Boolean {
         if (email.isEmpty() || password.length < 6) return false
         val hashedPassword = hashPassword(password)
-        val user = User(username = username, email = email, password = hashedPassword, roleId = 0)
+        val user = User(username = username, email = email, password = hashedPassword, roleId = 1)
         return userRepository.registerUser(user)
     }
 

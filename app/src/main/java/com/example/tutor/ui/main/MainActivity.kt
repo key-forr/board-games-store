@@ -33,8 +33,6 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch(Dispatchers.IO) {
             try {
                 val db = DbHelper.getDb(this@MainActivity)
-                val role = Role(null, "client")
-                db.getRoleDao().insertRole(role)
             } catch (e: Exception) {
                 Log.e("MainActivity", "Database error: ${e.message}")
             }

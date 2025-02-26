@@ -2,7 +2,6 @@ package com.example.tutor.data.repository
 
 import com.example.tutor.data.dao.UserDao
 import com.example.tutor.data.entity.User
-import kotlinx.coroutines.flow.Flow
 
 class UserRepository(private val userDao: UserDao) {
     suspend fun registerUser(user: User): Boolean {
@@ -13,5 +12,9 @@ class UserRepository(private val userDao: UserDao) {
         } else {
             false
         }
+    }
+
+    suspend fun getUserByEmail(email: String): User? {
+        return userDao.getUserByEmail(email)
     }
 }
