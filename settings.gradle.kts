@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "tutor"
+rootProject.name = "board-games-store"
 include(":app")
  

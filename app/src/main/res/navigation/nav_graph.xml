@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.tutor.ui.auth.LoginFragment"
+        android:name="com.example.boardGamesStore.ui.auth.LoginFragment"
         android:label="Login"
         tools:layout="@layout/fragment_login">
         <action
@@ -22,17 +22,17 @@
 
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.example.tutor.ui.auth.RegisterFragment"
+        android:name="com.example.boardGamesStore.ui.auth.RegisterFragment"
         android:label="Register"
         tools:layout="@layout/fragment_register" />
     <fragment
         android:id="@+id/adminFragment"
-        android:name="com.example.tutor.ui.admin.AdminFragment"
+        android:name="com.example.boardGamesStore.ui.admin.AdminFragment"
         android:label="fragment_admin"
         tools:layout="@layout/fragment_admin" />
     <fragment
         android:id="@+id/clientFragment"
-        android:name="com.example.tutor.ui.client.ClientFragment"
+        android:name="com.example.boardGamesStore.ui.client.ClientFragment"
         android:label="fragment_client"
         tools:layout="@layout/fragment_client" />
 
