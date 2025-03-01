@@ -31,11 +31,9 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController)
 
         lifecycleScope.launch(Dispatchers.IO) {
-            try {
-                val db = DbHelper.getDb(this@MainActivity)
-            } catch (e: Exception) {
-                Log.e("MainActivity", "Database error: ${e.message}")
-            }
+            val db = DbHelper.getDb(this@MainActivity)
+            val users = db.getUserDao().getUserByEmail("test@example.com")
+            Log.d("DB_TEST", "Users: $users")
         }
     }
 

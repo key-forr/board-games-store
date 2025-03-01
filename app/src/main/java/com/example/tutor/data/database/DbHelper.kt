@@ -19,8 +19,9 @@ import com.example.tutor.data.entity.Role
 
 @Database(
     entities = [User::class, Order::class, Game::class, Cart::class,
-                CartItem::class, OrderItem::class, OrderStatus::class, Role::class],
-    version = 2
+        CartItem::class, OrderItem::class, OrderStatus::class, Role::class],
+    version = 4,
+    exportSchema = false
 )
 @TypeConverters(Converters::class)
 abstract class DbHelper : RoomDatabase() {
@@ -37,7 +38,8 @@ abstract class DbHelper : RoomDatabase() {
                     context.applicationContext,
                     DbHelper::class.java,
                     "board-games-store.db"
-                ).fallbackToDestructiveMigration().build()
+                ).fallbackToDestructiveMigration()
+                    .build()
                 INSTANCE = instance
                 instance
             }

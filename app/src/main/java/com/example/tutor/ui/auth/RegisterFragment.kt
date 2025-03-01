@@ -14,7 +14,6 @@ import com.example.tutor.domain.RegisterUserUseCase
 import com.example.tutor.ui.viewmodel.RegisterViewModel
 import com.example.tutor.ui.viewmodel.RegisterViewModelFactory
 import com.example.tutor.data.repository.UserRepository
-import com.example.tutor.data.dao.UserDao
 import com.example.tutor.data.database.DbHelper
 
 class RegisterFragment : Fragment() {
