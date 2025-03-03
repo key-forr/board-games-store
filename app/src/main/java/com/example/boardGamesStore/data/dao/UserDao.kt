@@ -16,9 +16,6 @@ interface UserDao {
     @Query("SELECT * FROM Users WHERE email = :email LIMIT 1")
     suspend fun getUserByEmail(email: String): User?
 
-    @Query("SELECT * FROM Users WHERE auth_token = :token LIMIT 1")
-    suspend fun getUserByToken(token: String): User?
-
     @Update
     suspend fun updateUser(user: User)
 

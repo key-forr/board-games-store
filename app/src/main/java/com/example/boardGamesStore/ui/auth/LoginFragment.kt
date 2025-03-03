@@ -53,15 +53,17 @@ class LoginFragment : Fragment() {
         }
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken("317262166736-i7osc9rsrmi5nara8b0mc906nnn7d2jk.apps.googleusercontent.com") // Web Client ID
+            .requestIdToken("317262166736-i7osc9rsrmi5nara8b0mc906nnn7d2jk.apps.googleusercontent.com")
             .requestEmail()
             .build()
 
         googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
 
         binding.buttonGoogleSignIn.setOnClickListener {
-            val signInIntent = googleSignInClient.signInIntent
-            googleSignInLauncher.launch(signInIntent)
+            googleSignInClient.revokeAccess().addOnCompleteListener {
+                val signInIntent = googleSignInClient.signInIntent
+                googleSignInLauncher.launch(signInIntent)
+            }
         }
 
         binding.goToRegisterActivityTv.setOnClickListener {
@@ -75,8 +77,8 @@ class LoginFragment : Fragment() {
             if (success) {
                 Toast.makeText(requireContext(), "Успішний вхід!", Toast.LENGTH_SHORT).show()
                 when (roleId) {
-                    1L -> findNavController().navigate(R.id.clientFragment) // Клієнт
-                    2L -> findNavController().navigate(R.id.adminFragment)  // Адміністратор
+                    1L -> findNavController().navigate(R.id.clientFragment)
+                    2L -> findNavController().navigate(R.id.adminFragment)
                     else -> Toast.makeText(requireContext(), "Невідома роль!", Toast.LENGTH_SHORT).show()
                 }
             } else {

@@ -20,9 +20,6 @@ data class User(
     @ColumnInfo(name = "photo_url")
     val photoUrl: String? = null,
 
-    @ColumnInfo(name = "auth_token")
-    val authToken: String? = null,
-
     @ColumnInfo(name = "role_id")
     val roleId: Long = 1,
 

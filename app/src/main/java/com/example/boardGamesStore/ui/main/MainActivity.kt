@@ -21,7 +21,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Забираємо верхній бар
         supportActionBar?.hide()
 
         val navHostFragment = supportFragmentManager

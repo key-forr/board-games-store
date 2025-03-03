@@ -32,6 +32,10 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.backBtn.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
         binding.signUpBtn.setOnClickListener {
             val username = binding.usernameEt.text.toString()
             val email = binding.emailEt.text.toString()

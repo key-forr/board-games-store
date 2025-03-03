@@ -20,7 +20,7 @@ import com.example.boardGamesStore.data.entity.Role
 @Database(
     entities = [User::class, Order::class, Game::class, Cart::class,
         CartItem::class, OrderItem::class, OrderStatus::class, Role::class],
-    version = 4,
+    version = 5,
     exportSchema = false
 )
 @TypeConverters(Converters::class)

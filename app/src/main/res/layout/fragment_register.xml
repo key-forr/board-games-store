@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.auth.RegisterFragment">
+    tools:context=".ui.auth.RegisterFragment"
+    android:background="@color/white">
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -160,8 +161,9 @@
         android:id="@+id/sign_up_btn"
         android:layout_width="268dp"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/blue"
+        android:backgroundTint="@color/dark_orange"
         android:fontFamily="@font/ubuntu_light"
+        android:textColor="@color/black"
         android:layout_marginTop="40dp"
         android:text="Sign up"
         app:layout_constraintEnd_toEndOf="parent"
