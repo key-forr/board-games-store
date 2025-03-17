@@ -1,60 +1,97 @@
+// ui/client/CartFragment.kt
 package com.example.boardGamesStore.ui.client
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.boardGamesStore.R
+import com.example.boardGamesStore.data.database.AppDatabase
+import com.example.boardGamesStore.data.repository.CartRepository
+import com.example.boardGamesStore.domain.SessionManager
+import com.example.boardGamesStore.ui.adapter.CartAdapter
+import com.example.boardGamesStore.ui.viewmodel.CartViewModel
+import com.example.boardGamesStore.ui.viewmodel.CartViewModelFactory
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [CartFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class CartFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var cartViewModel: CartViewModel
+    private lateinit var cartAdapter: CartAdapter
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var emptyCartTextView: TextView
+    private lateinit var totalTextView: TextView
+    private lateinit var checkoutButton: Button
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_cart, container, false)
-    }
+        val view = inflater.inflate(R.layout.fragment_cart, container, false)
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CartFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CartFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+        recyclerView = view.findViewById(R.id.recycler_cart)
+        emptyCartTextView = view.findViewById(R.id.tv_empty_cart)
+        totalTextView = view.findViewById(R.id.tv_cart_total)
+        checkoutButton = view.findViewById(R.id.btn_checkout)
+
+        sessionManager = SessionManager(requireContext())
+
+        // Ініціалізація ViewModel
+        val database = AppDatabase.getDatabase(requireContext())
+        val cartRepository = CartRepository(database.cartItemDao())
+        val cartViewModelFactory = CartViewModelFactory(cartRepository)
+        cartViewModel = ViewModelProvider(this, cartViewModelFactory)[CartViewModel::class.java]
+
+        // Встановлення ID користувача для CartViewModel
+        cartViewModel.setUserId(sessionManager.getUserId())
+
+        // Налаштування адаптера
+        cartAdapter = CartAdapter(
+            onItemClick = { cartWithBoardGame ->
+                // Обробка кліку на елемент кошика (якщо потрібно)
+            },
+            onUpdateQuantity = { boardGameId, newQuantity ->
+                cartViewModel.updateCartItemQuantity(boardGameId, newQuantity)
+            },
+            onRemoveItem = { boardGameId ->
+                cartViewModel.removeFromCart(boardGameId)
             }
+        )
+
+        recyclerView.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = cartAdapter
+        }
+
+        // Спостереження за змінами даних
+        cartViewModel.getCartWithBoardGames().observe(viewLifecycleOwner) { cartItems ->
+            cartAdapter.submitList(cartItems)
+
+            if (cartItems.isEmpty()) {
+                emptyCartTextView.visibility = View.VISIBLE
+                recyclerView.visibility = View.GONE
+                totalTextView.text = "₴0.00"
+            } else {
+                emptyCartTextView.visibility = View.GONE
+                recyclerView.visibility = View.VISIBLE
+
+                // Обчислення загальної вартості
+                val total = cartItems.sumOf { it.boardGame.price * it.cartItem.quantity }
+                totalTextView.text = String.format("₴%.2f", total)
+            }
+        }
+
+        checkoutButton.setOnClickListener {
+            // Тут буде логіка оформлення замовлення
+        }
+
+        return view
     }
 }

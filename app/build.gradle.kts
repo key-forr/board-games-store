@@ -40,6 +40,7 @@ android {
 }
 
 dependencies {
+    implementation ("com.github.bumptech.glide:glide:4.15.1")
     kapt("androidx.room:room-compiler:2.6.1")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.7")
     implementation("androidx.room:room-ktx:2.6.1")

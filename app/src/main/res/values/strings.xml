@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">tutor</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="default_web_client_id">317262166736-le7d5ukrl54tooorl7sv8jl1u40dbesh.apps.googleusercontent.com</string>
+    <string name="web_client_id">317262166736-i7osc9rsrmi5nara8b0mc906nnn7d2jk.apps.googleusercontent.com</string>
 </resources>

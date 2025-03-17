@@ -1,9 +1,9 @@
-package com.example.boardGamesStore.data.database
+package com.example.boardGamesStore.data.util
 
 import androidx.room.TypeConverter
 import java.util.Date
 
-class Converters {
+class DateConverter {
     @TypeConverter
     fun fromTimestamp(value: Long?): Date? {
         return value?.let { Date(it) }

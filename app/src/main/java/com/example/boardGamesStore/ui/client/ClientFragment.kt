@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.example.boardGamesStore.R
 import com.example.boardGamesStore.databinding.FragmentClientBinding
@@ -28,13 +29,7 @@ class ClientFragment : Fragment() {
             childFragmentManager.findFragmentById(R.id.client_nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
 
-        binding.bottomNav.setupWithNavController(navController)
-
-        binding.bottomNav.setOnItemSelectedListener { item ->
-            val selectedView = binding.bottomNav.findViewById<View>(item.itemId)
-            selectedView?.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.scale_anim))
-            true
-        }
+        binding.bottomNavigation.setupWithNavController(navController)
     }
 
     override fun onDestroyView() {

@@ -7,6 +7,9 @@
     <color name="light_gray">#FFD3D3D3</color>
     <color name="dark_gray">#FF505050</color>
 
+
+    <color name="bottom_nav_icon_color">#FFFFFF</color>
+
     <!-- Червоні відтінки -->
     <color name="red">#FFFF0000</color>
     <color name="dark_red">#FF8B0000</color>

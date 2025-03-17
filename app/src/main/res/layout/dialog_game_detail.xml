@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/iv_dialog_game"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="Board game image" />
+
+    <TextView
+        android:id="@+id/tv_dialog_game_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/iv_dialog_game" />
+
+    <TextView
+        android:id="@+id/tv_dialog_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/tv_dialog_game_name"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_dialog_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@id/tv_dialog_price" />
+
+    <LinearLayout
+        android:id="@+id/layout_quantity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toBottomOf="@id/tv_dialog_description">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Кількість:"
+            android:textSize="16sp" />
+
+        <ImageButton
+            android:id="@+id/btn_dialog_decrease"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_remove"
+            android:contentDescription="Decrease quantity" />
+
+        <TextView
+            android:id="@+id/tv_dialog_quantity"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="1"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/btn_dialog_increase"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_add"
+            android:contentDescription="Increase quantity" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_add_to_cart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Додати в кошик"
+        app:layout_constraintTop_toBottomOf="@id/layout_quantity"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

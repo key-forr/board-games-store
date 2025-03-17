@@ -7,7 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.boardGamesStore.R
-import com.example.boardGamesStore.data.database.DbHelper
+import com.example.boardGamesStore.data.database.AppDatabase
 import com.example.boardGamesStore.databinding.ActivityMainBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,11 +27,8 @@ class MainActivity : AppCompatActivity() {
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            val db = DbHelper.getDb(this@MainActivity)
-            val users = db.getUserDao().getUserByEmail("test@example.com")
-            Log.d("DB_TEST", "Users: $users")
-        }
+        deleteDatabase("board-games-store.db")
+        deleteDatabase("boardgames.db")
     }
 
     override fun onSupportNavigateUp(): Boolean {

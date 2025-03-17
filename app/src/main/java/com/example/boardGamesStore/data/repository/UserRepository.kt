@@ -14,11 +14,23 @@ class UserRepository(private val userDao: UserDao) {
         }
     }
 
-    suspend fun insertUser(user: User){
+    suspend fun getUserByEmail(email: String): User? {
+        return userDao.getUserByEmail(email)
+    }
+
+    suspend fun insertUser(user: User): Long {
         return userDao.insertUser(user)
     }
 
-    suspend fun getUserByEmail(email: String): User? {
-        return userDao.getUserByEmail(email)
+    suspend fun updateUser(user: User) {
+        userDao.updateUser(user)
+    }
+
+    suspend fun deleteUser(userId: Long) {
+        userDao.deleteUser(userId)
+    }
+
+    suspend fun getUserById(userId: Long): User? {
+        return userDao.getUserById(userId)
     }
 }

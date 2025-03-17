@@ -7,20 +7,41 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.boardGamesStore.data.entity.User
 import com.example.boardGamesStore.data.repository.UserRepository
+import com.example.boardGamesStore.domain.LoginUserUseCase
 import kotlinx.coroutines.launch
 
-class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
+// Нова структура даних для результату входу
+data class LoginResult(val success: Boolean, val userId: Long, val email: String, val roleId: Long)
 
-    private val _loginResult = MutableLiveData<Pair<Boolean, Long?>>()
-    val loginResult: LiveData<Pair<Boolean, Long?>> get() = _loginResult
+class LoginViewModel(
+    private val loginUserUseCase: LoginUserUseCase,
+    private val userRepository: UserRepository
+) : ViewModel() {
+
+    private val _loginResult = MutableLiveData<LoginResult>()
+    val loginResult: LiveData<LoginResult> get() = _loginResult
 
     fun login(email: String, password: String) {
         viewModelScope.launch {
-            val user = userRepository.getUserByEmail(email)
-            if (user != null && user.password == password.hashCode().toString()) {
-                _loginResult.postValue(Pair(true, user.roleId))
-            } else {
-                _loginResult.value = Pair(false, null)
+            val role = loginUserUseCase.execute(email, password)
+            when (role) {
+                "client" -> {
+                    val user = userRepository.getUserByEmail(email)
+                    if (user != null) {
+                        _loginResult.postValue(LoginResult(true, user.id ?: -1L, user.email, user.roleId ?: 1L))
+                    } else {
+                        _loginResult.postValue(LoginResult(false, -1L, "", -1L))
+                    }
+                }
+                "admin" -> {
+                    val user = userRepository.getUserByEmail(email)
+                    if (user != null) {
+                        _loginResult.postValue(LoginResult(true, user.id ?: -2L, user.email, user.roleId ?: 2L))
+                    } else {
+                        _loginResult.postValue(LoginResult(false, -1L, "", -1L))
+                    }
+                }
+                else -> _loginResult.postValue(LoginResult(false, -1L, "", -1L))
             }
         }
     }
@@ -31,13 +52,15 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
 
             if (user == null) {
                 user = User(email = email, googleId = googleId, photoUrl = photoUrl)
-                userRepository.insertUser(user)
+                val userId = userRepository.insertUser(user)
                 Log.d("Database", "Збережено нового користувача: $user")
+
+                // Припускаємо, що новий користувач отримує роль "client" (1L)
+                _loginResult.postValue(LoginResult(true, userId, email, 1L))
             } else {
                 Log.d("Database", "Користувач уже існує: $user")
+                _loginResult.postValue(LoginResult(true, user.id ?: -1L, user.email, user.roleId ?: 1L))
             }
-
-            _loginResult.postValue(Pair(true, user.roleId))
         }
     }
 }

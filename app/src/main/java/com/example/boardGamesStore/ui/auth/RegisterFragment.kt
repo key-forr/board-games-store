@@ -14,12 +14,12 @@ import com.example.boardGamesStore.domain.RegisterUserUseCase
 import com.example.boardGamesStore.ui.viewmodel.RegisterViewModel
 import com.example.boardGamesStore.ui.viewmodel.RegisterViewModelFactory
 import com.example.boardGamesStore.data.repository.UserRepository
-import com.example.boardGamesStore.data.database.DbHelper
+import com.example.boardGamesStore.data.database.AppDatabase
 
 class RegisterFragment : Fragment() {
     private lateinit var binding: FragmentRegisterBinding
     private val viewModel: RegisterViewModel by viewModels {
-        val userDao = DbHelper.getDb(requireContext()).getUserDao()
+        val userDao = AppDatabase.getDatabase(requireContext()).userDao()
         val userRepository = UserRepository(userDao)
         RegisterViewModelFactory(RegisterUserUseCase(userRepository))
     }
