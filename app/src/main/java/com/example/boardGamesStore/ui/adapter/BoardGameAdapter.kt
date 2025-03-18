@@ -1,4 +1,3 @@
-// ui/adapter/BoardGameAdapter.kt
 package com.example.boardGamesStore.ui.adapter
 
 import android.view.LayoutInflater
@@ -43,10 +42,8 @@ class BoardGameAdapter(private val onItemClick: (BoardGame) -> Unit) :
                 imageView.setImageResource(R.drawable.placeholder_game)
             }
 
-            // Відображення ціни
             priceTextView.text = String.format("₴%.2f", boardGame.price)
 
-            // Встановлення слухача на клік
             itemView.setOnClickListener {
                 onItemClick(boardGame)
             }

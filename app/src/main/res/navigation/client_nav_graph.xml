@@ -2,6 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/client_nav_graph"
     app:startDestination="@id/homeFragment">
 
     <fragment
@@ -20,11 +21,31 @@
         android:id="@+id/cartFragment"
         android:name="com.example.boardGamesStore.ui.client.CartFragment"
         android:label="Cart"
-        tools:layout="@layout/fragment_cart" />
+        tools:layout="@layout/fragment_cart">
+        <action
+            android:id="@+id/action_cartFragment_to_checkoutFragment"
+            app:destination="@id/checkoutFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.boardGamesStore.ui.client.ProfileFragment"
+        android:name="com.example.boardGamesStore.ui.profile.ProfileFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/checkoutFragment"
+        android:name="com.example.boardGamesStore.ui.client.CheckoutFragment"
+        android:label="Оформлення замовлення"
+        tools:layout="@layout/fragment_checkout">
+        <action
+            android:id="@+id/action_checkoutFragment_to_ordersFragment"
+            app:destination="@id/ordersFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/ordersFragment"
+        android:name="com.example.boardGamesStore.ui.client.OrdersFragment"
+        android:label="Замовлення"
+        tools:layout="@layout/fragment_orders" />
 </navigation>

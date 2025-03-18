@@ -1,4 +1,3 @@
-// ui/client/ListFragment.kt
 package com.example.boardGamesStore.ui.client
 
 import android.os.Bundle
@@ -48,10 +47,9 @@ class ListFragment : Fragment() {
 
         sessionManager = SessionManager(requireContext())
 
-        // Ініціалізація ViewModel
         val database = AppDatabase.getDatabase(requireContext())
         val boardGameRepository = BoardGameRepository(database.boardGameDao())
-        val cartRepository = CartRepository(database.cartItemDao())
+        val cartRepository = CartRepository(database.cartDao())
 
         val boardGameViewModelFactory = BoardGameViewModelFactory(boardGameRepository)
         boardGameViewModel = ViewModelProvider(this, boardGameViewModelFactory)[BoardGameViewModel::class.java]
@@ -59,10 +57,8 @@ class ListFragment : Fragment() {
         val cartViewModelFactory = CartViewModelFactory(cartRepository)
         cartViewModel = ViewModelProvider(this, cartViewModelFactory)[CartViewModel::class.java]
 
-        // Встановлення ID користувача для CartViewModel
         cartViewModel.setUserId(sessionManager.getUserId())
 
-        // Налаштування адаптера
         boardGameAdapter = BoardGameAdapter { boardGame ->
             showGameDetailsDialog(boardGame)
         }
@@ -72,7 +68,6 @@ class ListFragment : Fragment() {
             adapter = boardGameAdapter
         }
 
-        // Спостереження за змінами даних
         boardGameViewModel.allBoardGames.observe(viewLifecycleOwner) { boardGames ->
             boardGameAdapter.submitList(boardGames)
         }
@@ -93,7 +88,6 @@ class ListFragment : Fragment() {
         val btnIncrease = view.findViewById<ImageButton>(R.id.btn_dialog_increase)
         val btnAddToCart = view.findViewById<Button>(R.id.btn_add_to_cart)
 
-        // Встановлення даних
         boardGame.imageUrl?.let { url ->
             Glide.with(requireContext())
                 .load(url)
@@ -104,7 +98,6 @@ class ListFragment : Fragment() {
             imageView.setImageResource(R.drawable.placeholder_game)
         }
 
-        // ui/client/ListFragment.kt (продовження)
         nameTextView.text = boardGame.name
         priceTextView.text = String.format("₴%.2f", boardGame.price)
         descriptionTextView.text = boardGame.description
@@ -112,7 +105,6 @@ class ListFragment : Fragment() {
         var quantity = 1
         quantityTextView.text = quantity.toString()
 
-        // Обробка кліків на кнопки
         btnDecrease.setOnClickListener {
             if (quantity > 1) {
                 quantity--

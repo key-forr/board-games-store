@@ -16,7 +16,6 @@ import com.example.boardGamesStore.ui.viewmodel.LoginViewModel
 import com.example.boardGamesStore.ui.viewmodel.LoginViewModelFactory
 import com.example.boardGamesStore.data.repository.UserRepository
 import com.example.boardGamesStore.data.database.AppDatabase
-import com.example.boardGamesStore.domain.LoginUserUseCase
 import com.example.boardGamesStore.domain.SessionManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -44,10 +43,8 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Ініціалізація SessionManager
         sessionManager = SessionManager(requireContext())
 
-        // Перевірка чи користувач вже авторизований
         if (sessionManager.isLoggedIn()) {
             navigateBasedOnRole(sessionManager.getUserRole())
             return
@@ -87,22 +84,20 @@ class LoginFragment : Fragment() {
             Log.d("LoginObserver", "Result: success=$success, roleId=$roleId")
 
             if (success) {
-                // Зберігаємо сесію
                 sessionManager.saveUserSession(userId, email, roleId)
 
                 Toast.makeText(requireContext(), "Успішний вхід!", Toast.LENGTH_SHORT).show()
-                navigateBasedOnRole(roleId)  // Error here
+                navigateBasedOnRole(roleId)
             } else {
                 Toast.makeText(requireContext(), "Помилка входу!", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    // Функція для навігації на основі ролі користувача
     private fun navigateBasedOnRole(roleId: Long) {
         when (roleId) {
-            1L -> findNavController().navigate(R.id.clientFragment)
-            2L -> findNavController().navigate(R.id.adminFragment)
+            1L -> findNavController().navigate(R.id.action_loginFragment_to_clientFragment)
+            2L -> findNavController().navigate(R.id.action_loginFragment_to_adminFragment)
             else -> Toast.makeText(requireContext(), "Невідома роль!", Toast.LENGTH_SHORT).show()
         }
     }

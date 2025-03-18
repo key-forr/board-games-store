@@ -1,4 +1,3 @@
-// domain/SessionManager.kt
 package com.example.boardGamesStore.domain
 
 import android.content.Context
@@ -18,7 +17,6 @@ class SessionManager(context: Context) {
         private const val IS_LOGGED_IN = "is_logged_in"
     }
 
-    // domain/SessionManager.kt (продовження)
     fun saveUserSession(userId: Long, email: String, role: Long) {
         editor.putLong(USER_ID, userId)
         editor.putString(USER_EMAIL, email)

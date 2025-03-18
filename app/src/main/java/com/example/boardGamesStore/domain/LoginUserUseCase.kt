@@ -1,4 +1,3 @@
-// domain/LoginUserUseCase.kt (якщо ще не створений)
 package com.example.boardGamesStore.domain
 
 import com.example.boardGamesStore.data.entity.User

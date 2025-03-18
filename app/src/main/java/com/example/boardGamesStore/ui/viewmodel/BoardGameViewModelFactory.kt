@@ -1,4 +1,3 @@
-// ui/viewmodel/BoardGameViewModelFactory.kt
 package com.example.boardGamesStore.ui.viewmodel
 
 import androidx.lifecycle.ViewModel

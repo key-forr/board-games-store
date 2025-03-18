@@ -1,4 +1,3 @@
-// ui/client/CartFragment.kt
 package com.example.boardGamesStore.ui.client
 
 import android.os.Bundle
@@ -9,6 +8,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.boardGamesStore.R
@@ -43,19 +43,15 @@ class CartFragment : Fragment() {
 
         sessionManager = SessionManager(requireContext())
 
-        // Ініціалізація ViewModel
         val database = AppDatabase.getDatabase(requireContext())
-        val cartRepository = CartRepository(database.cartItemDao())
+        val cartRepository = CartRepository(database.cartDao())
         val cartViewModelFactory = CartViewModelFactory(cartRepository)
         cartViewModel = ViewModelProvider(this, cartViewModelFactory)[CartViewModel::class.java]
 
-        // Встановлення ID користувача для CartViewModel
         cartViewModel.setUserId(sessionManager.getUserId())
 
-        // Налаштування адаптера
         cartAdapter = CartAdapter(
             onItemClick = { cartWithBoardGame ->
-                // Обробка кліку на елемент кошика (якщо потрібно)
             },
             onUpdateQuantity = { boardGameId, newQuantity ->
                 cartViewModel.updateCartItemQuantity(boardGameId, newQuantity)
@@ -70,7 +66,6 @@ class CartFragment : Fragment() {
             adapter = cartAdapter
         }
 
-        // Спостереження за змінами даних
         cartViewModel.getCartWithBoardGames().observe(viewLifecycleOwner) { cartItems ->
             cartAdapter.submitList(cartItems)
 
@@ -78,18 +73,19 @@ class CartFragment : Fragment() {
                 emptyCartTextView.visibility = View.VISIBLE
                 recyclerView.visibility = View.GONE
                 totalTextView.text = "₴0.00"
+                checkoutButton.isEnabled = false
             } else {
                 emptyCartTextView.visibility = View.GONE
                 recyclerView.visibility = View.VISIBLE
+                checkoutButton.isEnabled = true
 
-                // Обчислення загальної вартості
                 val total = cartItems.sumOf { it.boardGame.price * it.cartItem.quantity }
                 totalTextView.text = String.format("₴%.2f", total)
             }
         }
 
         checkoutButton.setOnClickListener {
-            // Тут буде логіка оформлення замовлення
+            findNavController().navigate(R.id.action_cartFragment_to_checkoutFragment)
         }
 
         return view

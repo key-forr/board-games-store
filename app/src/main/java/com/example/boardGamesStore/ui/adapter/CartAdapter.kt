@@ -1,4 +1,3 @@
-// ui/adapter/CartAdapter.kt
 package com.example.boardGamesStore.ui.adapter
 
 import android.view.LayoutInflater
@@ -43,7 +42,6 @@ class CartAdapter(
         fun bind(cartItem: CartWithBoardGames) {
             val boardGame = cartItem.boardGame
 
-            // Встановлення зображення
             boardGame.imageUrl?.let { url ->
                 Glide.with(itemView.context)
                     .load(url)
@@ -54,12 +52,10 @@ class CartAdapter(
                 imageView.setImageResource(R.drawable.placeholder_game)
             }
 
-            // Встановлення тексту
             nameTextView.text = boardGame.name
             priceTextView.text = String.format("₴%.2f", boardGame.price)
             quantityTextView.text = cartItem.cartItem.quantity.toString()
 
-            // Встановлення слухачів
             itemView.setOnClickListener {
                 onItemClick(cartItem)
             }

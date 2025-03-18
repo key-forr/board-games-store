@@ -1,4 +1,3 @@
-// ui/viewmodel/BoardGameViewModel.kt
 package com.example.boardGamesStore.ui.viewmodel
 
 import androidx.lifecycle.LiveData
