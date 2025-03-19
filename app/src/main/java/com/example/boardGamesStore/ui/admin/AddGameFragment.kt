@@ -64,6 +64,7 @@ class AddGameFragment : Fragment() {
                     Toast.makeText(requireContext(), "Помилка при додаванні гри", Toast.LENGTH_SHORT).show()
                 }
             }
+
         }
 
         binding.cancelBtn.setOnClickListener {

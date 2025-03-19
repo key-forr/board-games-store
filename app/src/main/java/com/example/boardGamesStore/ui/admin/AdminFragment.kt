@@ -25,7 +25,6 @@ class AdminFragment : Fragment() {
         val navHostFragment =
             childFragmentManager.findFragmentById(R.id.admin_nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
-
     }
 
     override fun onDestroyView() {

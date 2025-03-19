@@ -61,7 +61,11 @@ class AdminHomeFragment : Fragment() {
 
     private fun setupClickListeners() {
         binding.addGameBtn.setOnClickListener {
-            findNavController().navigate(R.id.addGameFragment)
+            // Замість навігації до фрагмента, показуємо діалог
+            AddGameDialogFragment.newInstance().show(
+                parentFragmentManager,
+                AddGameDialogFragment.TAG
+            )
         }
 
         binding.manageOrdersBtn.setOnClickListener {

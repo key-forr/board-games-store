@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.boardGamesStore.data.database.AppDatabase
 import com.example.boardGamesStore.data.repository.OrderRepository
@@ -31,6 +32,10 @@ class AdminOrdersFragment : Fragment() {
 
         setupRecyclerView()
         loadOrders()
+
+        binding.backBtn.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     private fun setupRecyclerView() {

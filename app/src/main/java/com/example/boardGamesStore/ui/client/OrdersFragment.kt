@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.boardGamesStore.R
 import com.example.boardGamesStore.data.database.AppDatabase
 import com.example.boardGamesStore.data.repository.OrderRepository
 import com.example.boardGamesStore.databinding.FragmentOrdersBinding
@@ -31,6 +33,10 @@ class OrdersFragment : Fragment() {
 
         setupRecyclerView()
         loadOrders()
+
+        binding.backBtn.setOnClickListener {
+            findNavController().navigate(R.id.action_ordersFragment_to_profileFragment)
+        }
     }
 
     private fun setupRecyclerView() {

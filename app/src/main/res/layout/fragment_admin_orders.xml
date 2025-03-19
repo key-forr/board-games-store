@@ -6,11 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".ui.admin.AdminOrdersFragment">
 
+    <ImageButton
+        android:id="@+id/back_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_round_arrow_back"
+        android:backgroundTint="@color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="24dp"/>
+
     <TextView
         android:id="@+id/titleTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="40dp"
         android:text="Управління замовленнями"
         android:textSize="20sp"
         android:textStyle="bold"

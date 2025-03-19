@@ -103,7 +103,7 @@ class CheckoutFragment : Fragment() {
             cartRepository.clearCart(userId)
 
             Toast.makeText(requireContext(), "Замовлення успішно оформлено!", Toast.LENGTH_SHORT).show()
-            findNavController().navigate(R.id.action_checkoutFragment_to_ordersFragment)
+            findNavController().navigate(R.id.action_checkoutFragment_to_cartFragment)
         }
     }
 }

@@ -40,7 +40,15 @@ class AdminGamesListFragment : Fragment() {
         loadGames()
 
         binding.addGameFab.setOnClickListener {
-            findNavController().navigate(R.id.action_adminGamesListFragment_to_addGameFragment)
+            // Замість навігації використовуємо діалог
+            AddGameDialogFragment.newInstance().show(
+                parentFragmentManager,
+                AddGameDialogFragment.TAG
+            )
+        }
+
+        binding.backBtn.setOnClickListener {
+            findNavController().popBackStack()
         }
     }
 

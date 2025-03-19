@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.boardGamesStore.data.database.AppDatabase
 import com.example.boardGamesStore.data.repository.UserRepository
 import com.example.boardGamesStore.databinding.FragmentAdminProfileBinding
@@ -34,6 +35,9 @@ class AdminProfileFragment : Fragment() {
 
         binding.logoutBtn.setOnClickListener {
             logout()
+        }
+        binding.backBtn.setOnClickListener {
+            findNavController().popBackStack()
         }
     }
 

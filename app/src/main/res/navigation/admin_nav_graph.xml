@@ -13,13 +13,20 @@
         <action
             android:id="@+id/action_adminGamesListFragment_to_addGameFragment"
             app:destination="@id/addGameFragment" />
+        <action
+            android:id="@+id/action_adminGamesListFragment_to_adminHomeFragment"
+            app:destination="@id/adminHomeFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/adminProfileFragment"
         android:name="com.example.boardGamesStore.ui.admin.AdminProfileFragment"
         android:label="Профіль адміністратора"
-        tools:layout="@layout/fragment_admin_profile" />
+        tools:layout="@layout/fragment_admin_profile" >
+        <action
+            android:id="@+id/action_adminProfileFragment_to_adminHomeFragment"
+            app:destination="@id/adminHomeFragment" />
+    </fragment>
 
     <action
         android:id="@+id/action_global_adminProfileFragment"
@@ -29,13 +36,24 @@
         android:id="@+id/addGameFragment"
         android:name="com.example.boardGamesStore.ui.admin.AddGameFragment"
         android:label="Додати гру"
-        tools:layout="@layout/fragment_add_game" />
+        tools:layout="@layout/fragment_add_game" >
+        <action
+            android:id="@+id/action_addGameFragment_to_adminGamesListFragment"
+            app:destination="@id/adminGamesListFragment" />
+        <action
+            android:id="@+id/action_addGameFragment_to_adminHomeFragment"
+            app:destination="@id/adminHomeFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/adminOrdersFragment"
         android:name="com.example.boardGamesStore.ui.admin.AdminOrdersFragment"
         android:label="Замовлення"
-        tools:layout="@layout/fragment_admin_orders" />
+        tools:layout="@layout/fragment_admin_orders" >
+        <action
+            android:id="@+id/action_adminOrdersFragment_to_adminHomeFragment"
+            app:destination="@id/adminHomeFragment" />
+    </fragment>
 
 
     <fragment
