@@ -6,15 +6,17 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.boardGamesStore.R
 import com.example.boardGamesStore.data.entity.CartWithBoardGames
+import com.example.boardGamesStore.ui.dialog.BoardGameDetailsDialog
 
 class CartAdapter(
-    private val onItemClick: (CartWithBoardGames) -> Unit,
+    private val fragmentManager: FragmentManager,
     private val onUpdateQuantity: (Long, Int) -> Unit,
     private val onRemoveItem: (Long) -> Unit
 ) : ListAdapter<CartWithBoardGames, CartAdapter.CartViewHolder>(CartDiffCallback()) {
@@ -57,7 +59,8 @@ class CartAdapter(
             quantityTextView.text = cartItem.cartItem.quantity.toString()
 
             itemView.setOnClickListener {
-                onItemClick(cartItem)
+                val dialog = BoardGameDetailsDialog.newInstance(boardGame)
+                dialog.show(fragmentManager, "BoardGameDetails")
             }
 
             btnDecrease.setOnClickListener {

@@ -9,7 +9,8 @@
 
 
     <color name="bottom_nav_icon_color">#FFFFFF</color>
-
+    <color name="text_color_primary">#333333</color> <!-- Темно-сірий колір для основного тексту -->
+    <color name="text_color_secondary">#555555</color>
     <!-- Червоні відтінки -->
     <color name="red">#FFFF0000</color>
     <color name="dark_red">#FF8B0000</color>

@@ -51,8 +51,7 @@ class CartFragment : Fragment() {
         cartViewModel.setUserId(sessionManager.getUserId())
 
         cartAdapter = CartAdapter(
-            onItemClick = { cartWithBoardGame ->
-            },
+            fragmentManager = childFragmentManager,
             onUpdateQuantity = { boardGameId, newQuantity ->
                 cartViewModel.updateCartItemQuantity(boardGameId, newQuantity)
             },

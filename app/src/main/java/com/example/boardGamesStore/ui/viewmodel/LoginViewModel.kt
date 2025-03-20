@@ -10,9 +10,6 @@ import com.example.boardGamesStore.data.repository.UserRepository
 import com.example.boardGamesStore.domain.LoginUserUseCase
 import kotlinx.coroutines.launch
 
-
-data class LoginResult(val success: Boolean, val userId: Long, val email: String, val roleId: Long)
-
 class LoginViewModel(
     private val loginUserUseCase: LoginUserUseCase,
     private val userRepository: UserRepository

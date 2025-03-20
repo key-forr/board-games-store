@@ -24,7 +24,7 @@ import com.example.boardGamesStore.data.util.DateConverter
         Order::class,
         OrderItem::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 @TypeConverters(DateConverter::class)
@@ -44,7 +44,8 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "board_games_store_database"
-                ).build()
+                )
+                    .build()
                 INSTANCE = instance
                 instance
             }
