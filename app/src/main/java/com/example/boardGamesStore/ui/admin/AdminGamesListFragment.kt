@@ -55,6 +55,10 @@ class AdminGamesListFragment : Fragment() {
     private fun setupRecyclerView() {
         adapter = AdminGamesAdapter(
             onEditClick = { game ->
+                EditGameDialogFragment.newInstance(game).show(
+                    parentFragmentManager,
+                    EditGameDialogFragment.TAG
+                )
                 },
             onDeleteClick = { game ->
                 deleteGame(game)
