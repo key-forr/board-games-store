@@ -69,7 +69,8 @@ class ListFragment : Fragment() {
         }
 
         boardGameViewModel.allBoardGames.observe(viewLifecycleOwner) { boardGames ->
-            boardGameAdapter.submitList(boardGames)
+            val activeBoardGames = boardGames.filter { it.isActive }
+            boardGameAdapter.submitList(activeBoardGames)
         }
 
         return view

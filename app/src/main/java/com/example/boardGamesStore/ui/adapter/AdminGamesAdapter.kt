@@ -2,6 +2,7 @@ package com.example.boardGamesStore.ui.admin
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -33,11 +34,43 @@ class AdminGamesAdapter(
 
         fun bind(game: BoardGame) {
             binding.apply {
+                // Встановлення стилів залежно від статусу активності
+                val backgroundColor = if (game.isActive) {
+                    ContextCompat.getColor(root.context, R.color.active_game_background)
+                } else {
+                    ContextCompat.getColor(root.context, R.color.inactive_game_background)
+                }
+
+                val textColor = if (game.isActive) {
+                    ContextCompat.getColor(root.context, R.color.active_game_text)
+                } else {
+                    ContextCompat.getColor(root.context, R.color.inactive_game_text)
+                }
+
+                // Застосування кольорів до елементів
+                root.setBackgroundColor(backgroundColor)
+                gameTitleTv.setTextColor(textColor)
+                gamePriceTv.setTextColor(textColor)
+                gameStockTv.setTextColor(textColor)
+
+                // Додаткове затемнення або зміна opacity для неактивних елементів
+                root.alpha = if (game.isActive) 1.0f else 0.6f
+
                 gameTitleTv.text = game.name
                 gamePriceTv.text = "${game.price} ₴"
-                gameStockTv.text = "В наявності"
 
-                // Load image if available
+                // Зміна тексту статусу залежно від активності
+                gameStockTv.text = if (game.isActive) {
+                    "В наявності"
+                } else {
+                    "Товар не активний"
+                }
+
+                // Зміна стану кнопок для неактивних ігор
+                editBtn.isEnabled = game.isActive
+                deleteBtn.isEnabled = game.isActive
+
+                // Решта коду без змін
                 if (!game.imageUrl.isNullOrEmpty()) {
                     Glide.with(root.context)
                         .load(game.imageUrl)

@@ -43,7 +43,12 @@ class AdminHomeFragment : Fragment() {
     private fun loadStatistics() {
         viewLifecycleOwner.lifecycleScope.launch {
             boardGameRepository.allBoardGames.observe(viewLifecycleOwner) { games ->
+                // Загальна кількість товарів
                 binding.totalProductsTv.text = games.size.toString()
+
+                // Кількість активних товарів
+                val activeGames = games.count { it.isActive }
+                binding.activeGamesTv.text = activeGames.toString()
             }
 
             orderRepository.getAllOrders().observe(viewLifecycleOwner) { orders ->

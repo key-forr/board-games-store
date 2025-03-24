@@ -10,6 +10,11 @@
     <color name="available_color">#4CAF50</color>
     <color name="unavailable_color">#F44336</color>
 
+    <color name="active_game_background">#FFFFFF</color>
+    <color name="inactive_game_background">#F0F0F0</color>
+    <color name="active_game_text">#000000</color>
+    <color name="inactive_game_text">#888888</color>
+
     <color name="bottom_nav_icon_color">#FFFFFF</color>
     <color name="text_color_primary">#333333</color> <!-- Темно-сірий колір для основного тексту -->
     <color name="text_color_secondary">#555555</color>
