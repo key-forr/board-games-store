@@ -59,9 +59,9 @@ class AdminGamesListFragment : Fragment() {
                     parentFragmentManager,
                     EditGameDialogFragment.TAG
                 )
-                },
+            },
             onDeleteClick = { game ->
-                deleteGame(game)
+                deactivateGame(game)  // Змінено на деактивацію замість видалення
             }
         )
 
@@ -84,10 +84,11 @@ class AdminGamesListFragment : Fragment() {
         }
     }
 
-    private fun deleteGame(game: BoardGame) {
+    // Новий метод для деактивації гри замість видалення
+    private fun deactivateGame(game: BoardGame) {
         viewLifecycleOwner.lifecycleScope.launch {
             game.id?.let { id ->
-                boardGameRepository.deleteBoardGame(id)
+                boardGameRepository.deactivateBoardGame(id)
             }
         }
     }

@@ -17,6 +17,8 @@ data class BoardGame(
     val price: Double,
     @ColumnInfo(name = "image_url")
     val imageUrl: String?,
+    @ColumnInfo(name = "is_active")
+    val isActive: Boolean = true, // Нове поле з дефолтним значенням true
     @ColumnInfo(name = "created_at")
     val createdAt: Date = Date(),
     @ColumnInfo(name = "updated_at")

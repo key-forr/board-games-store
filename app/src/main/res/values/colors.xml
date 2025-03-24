@@ -7,6 +7,8 @@
     <color name="light_gray">#FFD3D3D3</color>
     <color name="dark_gray">#FF505050</color>
 
+    <color name="available_color">#4CAF50</color>
+    <color name="unavailable_color">#F44336</color>
 
     <color name="bottom_nav_icon_color">#FFFFFF</color>
     <color name="text_color_primary">#333333</color> <!-- Темно-сірий колір для основного тексту -->

@@ -19,6 +19,10 @@ class BoardGameRepository(private val boardGameDao: BoardGameDao) {
         boardGameDao.updateBoardGame(boardGame)
     }
 
+    suspend fun deactivateBoardGame(id: Long) {
+        boardGameDao.deactivateBoardGame(id)
+    }
+
     suspend fun deleteBoardGame(id: Long) {
         boardGameDao.deleteBoardGame(id)
     }

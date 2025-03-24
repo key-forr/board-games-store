@@ -9,6 +9,7 @@ import com.example.boardGamesStore.data.dao.BoardGameDao
 import com.example.boardGamesStore.data.dao.CartItemDao
 import com.example.boardGamesStore.data.dao.OrderDao
 import com.example.boardGamesStore.data.dao.UserDao
+import com.example.boardGamesStore.data.database.migration.MIGRATION_2_3
 import com.example.boardGamesStore.data.entity.BoardGame
 import com.example.boardGamesStore.data.entity.CartItem
 import com.example.boardGamesStore.data.entity.Order
@@ -24,7 +25,7 @@ import com.example.boardGamesStore.data.util.DateConverter
         Order::class,
         OrderItem::class
     ],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 @TypeConverters(DateConverter::class)
@@ -45,6 +46,7 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "board_games_store_database"
                 )
+                    .addMigrations(MIGRATION_2_3)
                     .build()
                 INSTANCE = instance
                 instance
