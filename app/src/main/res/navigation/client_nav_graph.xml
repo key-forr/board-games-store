@@ -4,7 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/client_nav_graph"
     app:startDestination="@id/homeFragment">
+    <fragment
+        android:id="@+id/orderDetailFragment"
+        android:name="com.example.boardGamesStore.ui.client.OrderDetailFragment"
+        android:label="fragment_order_detail"
+        tools:layout="@layout/fragment_order_detail">
+        <argument
+            android:name="orderId"
+            app:argType="long" />
+    </fragment>
 
+    <!-- Додайте цей action до вашого ordersFragment -->
+    <action
+        android:id="@+id/action_ordersFragment_to_orderDetailFragment"
+        app:destination="@id/orderDetailFragment"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.boardGamesStore.ui.client.HomeFragment"

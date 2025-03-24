@@ -9,6 +9,7 @@ import androidx.room.Transaction
 import androidx.room.Update
 import com.example.boardGamesStore.data.entity.Order
 import com.example.boardGamesStore.data.entity.OrderItem
+import com.example.boardGamesStore.data.entity.OrderItemWithGame
 import com.example.boardGamesStore.data.entity.OrderWithItems
 import java.util.Date
 
@@ -25,6 +26,12 @@ interface OrderDao {
 
     @Query("SELECT * FROM orders WHERE id = :orderId")
     suspend fun getOrderById(orderId: Long): Order?
+
+    @Query("SELECT * FROM orders WHERE id = :orderId")
+    fun getOrderWithItemsById(orderId: Long): LiveData<OrderWithItems>
+
+    @Query("SELECT * FROM order_items WHERE order_id = :orderId")
+    fun getOrderItemsWithGamesByOrderId(orderId: Long): LiveData<List<OrderItemWithGame>>
 
     @Transaction
     @Query("SELECT * FROM orders WHERE id = :orderId")

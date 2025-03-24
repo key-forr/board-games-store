@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import com.example.boardGamesStore.data.dao.OrderDao
 import com.example.boardGamesStore.data.entity.Order
 import com.example.boardGamesStore.data.entity.OrderItem
+import com.example.boardGamesStore.data.entity.OrderItemWithGame
 import com.example.boardGamesStore.data.entity.OrderWithItems
 import java.util.Date
 
@@ -24,6 +25,13 @@ class OrderRepository(private val orderDao: OrderDao) {
         return orderDao.getOrderWithItems(orderId)
     }
 
+    fun getOrderWithItemsById(orderId: Long): LiveData<OrderWithItems> {
+        return orderDao.getOrderWithItemsById(orderId)
+    }
+
+    fun getOrderItemsWithGamesByOrderId(orderId: Long): LiveData<List<OrderItemWithGame>> {
+        return orderDao.getOrderItemsWithGamesByOrderId(orderId)
+    }
     fun getOrdersForUser(userId: Long): LiveData<List<OrderWithItems>> {
         return orderDao.getOrdersForUser(userId)
     }

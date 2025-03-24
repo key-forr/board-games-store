@@ -39,13 +39,19 @@ class OrdersFragment : Fragment() {
         }
     }
 
+    // Додаємо обробник кліку для замовлення
     private fun setupRecyclerView() {
-        ordersAdapter = OrdersAdapter()
+        ordersAdapter = OrdersAdapter { orderId ->
+            // Обробка кліку на замовлення, наприклад, перехід до екрану деталей замовлення
+            val action = OrdersFragmentDirections.actionOrdersFragmentToOrderDetailFragment(orderId)
+            findNavController().navigate(action)
+        }
         binding.ordersRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = ordersAdapter
         }
     }
+
 
     private fun loadOrders() {
         val userId = sessionManager.getUserId()

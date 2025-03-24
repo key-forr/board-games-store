@@ -10,7 +10,7 @@ import com.example.boardGamesStore.databinding.ItemOrderBinding
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class OrdersAdapter : ListAdapter<OrderWithItems, OrdersAdapter.OrderViewHolder>(OrderDiffCallback()) {
+class OrdersAdapter(private val onOrderClick: (Long) -> Unit) : ListAdapter<OrderWithItems, OrdersAdapter.OrderViewHolder>(OrderDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderViewHolder {
         val binding = ItemOrderBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -34,6 +34,13 @@ class OrdersAdapter : ListAdapter<OrderWithItems, OrdersAdapter.OrderViewHolder>
             binding.totalPriceTv.text = String.format("%.2f грн", order.totalPrice)
             binding.statusTv.text = getStatusText(order.status)
             binding.itemsCountTv.text = "${items.size} товарів"
+
+            // Додавання слухача кліку на картку замовлення
+            binding.root.setOnClickListener {
+                order.id?.let { orderId ->
+                    onOrderClick(orderId)
+                }
+            }
         }
 
         private fun getStatusText(status: String): String {
