@@ -22,6 +22,26 @@
             android:textStyle="bold"
             android:layout_marginBottom="24dp" />
 
+        <ImageView
+            android:id="@+id/imagePreview"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginBottom="16dp"
+            android:scaleType="centerCrop"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/addImageBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Додати зображення"
+            android:textAlignment="center"
+            android:textColor="@color/design_default_color_primary"
+            android:textSize="16sp"
+            android:padding="12dp"
+            android:background="?attr/selectableItemBackground"
+            android:layout_marginBottom="16dp"/>
+
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -52,7 +72,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="24dp"
             android:hint="Ціна">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -60,19 +80,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:hint="URL зображення">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/imageUrlEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textUri" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
