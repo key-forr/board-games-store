@@ -27,4 +27,16 @@ interface BoardGameDao {
 
     @Query("DELETE FROM board_games WHERE id = :id")
     suspend fun deleteBoardGame(id: Long)
+
+    @Query("SELECT * FROM board_games WHERE is_active = 1 AND (name LIKE :query OR description LIKE :query)")
+    fun searchBoardGames(query: String): LiveData<List<BoardGame>>
+
+    @Query("SELECT * FROM board_games WHERE is_active = 1 AND price BETWEEN :minPrice AND :maxPrice")
+    fun filterBoardGamesByPrice(minPrice: Double, maxPrice: Double): LiveData<List<BoardGame>>
+
+    @Query("SELECT MIN(price) FROM board_games WHERE is_active = 1")
+    fun getMinPrice(): Double?
+
+    @Query("SELECT MAX(price) FROM board_games WHERE is_active = 1")
+    fun getMaxPrice(): Double?
 }

@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.SearchView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -18,8 +20,12 @@ import com.example.boardGamesStore.data.database.AppDatabase
 import com.example.boardGamesStore.data.entity.BoardGame
 import com.example.boardGamesStore.data.repository.BoardGameRepository
 import com.example.boardGamesStore.data.repository.CartRepository
+import com.example.boardGamesStore.databinding.FragmentAdminGamesListBinding
+import com.example.boardGamesStore.databinding.FragmentListBinding
 import com.example.boardGamesStore.domain.SessionManager
 import com.example.boardGamesStore.ui.adapter.BoardGameAdapter
+import com.example.boardGamesStore.ui.admin.AddGameDialogFragment
+import com.example.boardGamesStore.ui.admin.AdminGamesAdapter
 import com.example.boardGamesStore.ui.viewmodel.BoardGameViewModel
 import com.example.boardGamesStore.ui.viewmodel.BoardGameViewModelFactory
 import com.example.boardGamesStore.ui.viewmodel.CartViewModel
@@ -30,25 +36,24 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ListFragment : Fragment() {
-
+    private lateinit var boardGameAdapter: BoardGameAdapter
+    private lateinit var binding: FragmentListBinding
+    private lateinit var boardGameRepository: BoardGameRepository
+    private lateinit var sessionManager: SessionManager
     private lateinit var boardGameViewModel: BoardGameViewModel
     private lateinit var cartViewModel: CartViewModel
-    private lateinit var boardGameAdapter: BoardGameAdapter
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var sessionManager: SessionManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_list, container, false)
-        recyclerView = view.findViewById(R.id.recycler_board_games)
+    ): View {
+        binding = FragmentListBinding.inflate(inflater, container, false)
 
         sessionManager = SessionManager(requireContext())
 
         val database = AppDatabase.getDatabase(requireContext())
-        val boardGameRepository = BoardGameRepository(database.boardGameDao())
+        boardGameRepository = BoardGameRepository(database.boardGameDao())
         val cartRepository = CartRepository(database.cartDao())
 
         val boardGameViewModelFactory = BoardGameViewModelFactory(boardGameRepository)
@@ -63,17 +68,78 @@ class ListFragment : Fragment() {
             showGameDetailsDialog(boardGame)
         }
 
-        recyclerView.apply {
-            layoutManager = GridLayoutManager(requireContext(), 2)
-            adapter = boardGameAdapter
-        }
+        binding.recyclerBoardGames.adapter = boardGameAdapter
+
+        setupPriceRangeSlider()
+        setupSearchView()
 
         boardGameViewModel.allBoardGames.observe(viewLifecycleOwner) { boardGames ->
             val activeBoardGames = boardGames.filter { it.isActive }
             boardGameAdapter.submitList(activeBoardGames)
         }
 
-        return view
+        return binding.root
+    }
+
+    private fun setupPriceRangeSlider() {
+        // Отримуємо діапазон цін
+        CoroutineScope(Dispatchers.Main).launch {
+            val (minPrice, maxPrice) = boardGameRepository.getPriceRange()
+
+            binding.priceRangeSlider.apply {
+                valueFrom = minPrice.toFloat()
+                valueTo = maxPrice.toFloat()
+                values = listOf(minPrice.toFloat(), maxPrice.toFloat())
+            }
+
+            // Додаємо listener для slider
+            binding.priceRangeSlider.addOnChangeListener { slider, _, _ ->
+                val currentMinPrice = slider.values[0]
+                val currentMaxPrice = slider.values[1]
+
+                filterGamesByPrice(currentMinPrice.toDouble(), currentMaxPrice.toDouble())
+            }
+        }
+    }
+
+    private fun setupSearchView() {
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                query?.let { searchGames(it) }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                newText?.let { searchGames(it) }
+                return true
+            }
+        })
+    }
+
+    private fun searchGames(query: String) {
+        boardGameRepository.searchBoardGames(query).observe(viewLifecycleOwner) { games ->
+            val activeBoardGames = games.filter { it.isActive }
+            updateGamesList(activeBoardGames)
+        }
+    }
+
+    private fun filterGamesByPrice(minPrice: Double, maxPrice: Double) {
+        boardGameRepository.filterBoardGamesByPrice(minPrice, maxPrice)
+            .observe(viewLifecycleOwner) { games ->
+                val activeBoardGames = games.filter { it.isActive }
+                updateGamesList(activeBoardGames)
+            }
+    }
+
+    private fun updateGamesList(games: List<BoardGame>) {
+        binding.progressBar.visibility = View.GONE
+
+        if (games.isEmpty()) {
+            binding.recyclerBoardGames.visibility = View.GONE
+        } else {
+            binding.recyclerBoardGames.visibility = View.VISIBLE
+            boardGameAdapter.submitList(games)
+        }
     }
 
     private fun showGameDetailsDialog(boardGame: BoardGame) {
@@ -119,7 +185,6 @@ class ListFragment : Fragment() {
         }
 
         btnAddToCart.setOnClickListener {
-            val userId = sessionManager.getUserId()
             boardGame.id?.let { gameId ->
                 cartViewModel.addToCart(gameId, quantity)
                 dialog.dismiss()

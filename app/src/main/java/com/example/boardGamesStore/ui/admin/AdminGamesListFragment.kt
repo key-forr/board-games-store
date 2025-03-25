@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -19,6 +20,8 @@ class AdminGamesListFragment : Fragment() {
     private lateinit var binding: FragmentAdminGamesListBinding
     private lateinit var boardGameRepository: BoardGameRepository
     private lateinit var adapter: AdminGamesAdapter
+    private var minPrice = 0.0
+    private var maxPrice = 0.0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,7 +39,8 @@ class AdminGamesListFragment : Fragment() {
         boardGameRepository = BoardGameRepository(database.boardGameDao())
 
         setupRecyclerView()
-
+        setupPriceRangeSlider()
+        setupSearchView()
         loadGames()
 
         binding.addGameFab.setOnClickListener {
@@ -50,6 +54,38 @@ class AdminGamesListFragment : Fragment() {
         binding.backBtn.setOnClickListener {
             findNavController().popBackStack()
         }
+    }
+
+    private fun setupPriceRangeSlider() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            val priceRange = boardGameRepository.getPriceRange()
+            minPrice = priceRange.first
+            maxPrice = priceRange.second
+
+            binding.priceRangeSlider.apply {
+                valueFrom = minPrice.toFloat()
+                valueTo = maxPrice.toFloat()
+                values = listOf(minPrice.toFloat(), maxPrice.toFloat())
+
+                addOnChangeListener { _, _, _ ->
+                    filterGamesByPrice()
+                }
+            }
+        }
+    }
+
+    private fun setupSearchView() {
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                query?.let { searchGames(it) }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                newText?.let { searchGames(it) }
+                return true
+            }
+        })
     }
 
     private fun setupRecyclerView() {
@@ -90,6 +126,34 @@ class AdminGamesListFragment : Fragment() {
             game.id?.let { id ->
                 boardGameRepository.deactivateBoardGame(id)
             }
+        }
+    }
+
+    private fun searchGames(query: String) {
+        boardGameRepository.searchBoardGames(query).observe(viewLifecycleOwner) { games ->
+            updateGamesList(games)
+        }
+    }
+
+    private fun filterGamesByPrice() {
+        val currentValues = binding.priceRangeSlider.values
+        val filteredMinPrice = currentValues[0].toDouble()
+        val filteredMaxPrice = currentValues[1].toDouble()
+
+        boardGameRepository.filterBoardGamesByPrice(filteredMinPrice, filteredMaxPrice)
+            .observe(viewLifecycleOwner) { games ->
+                updateGamesList(games)
+            }
+    }
+
+    private fun updateGamesList(games: List<BoardGame>) {
+        if (games.isEmpty()) {
+            binding.emptyView.visibility = View.VISIBLE
+            binding.gamesRecyclerView.visibility = View.GONE
+        } else {
+            binding.emptyView.visibility = View.GONE
+            binding.gamesRecyclerView.visibility = View.VISIBLE
+            adapter.submitList(games)
         }
     }
 }
